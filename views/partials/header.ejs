@@ -35,7 +35,34 @@
 	</div>
     
 <div class="theme-layout gray-bg">	
-  
+    
+    <div class="responsive-header">
+		<div class="mh-head first Sticky">
+			<span class="mh-btns-left">
+				<a class="" href="#menu"><i class="fa fa-align-justify"></i></a>
+			</span>
+			<span class="mh-text">
+				<a href="newsfeed.html" title=""><img src="images/logo2.png" alt=""></a>
+			</span>
+			<!-- <span class="mh-btns-right">
+				<a class="fa fa-sliders" href="#shoppingbag"></a>
+			</span> -->
+		</div>
+		<div class="mh-head second">
+			<form class="mh-form" id="searchformmobile">
+				<input type="text" placeholder="Search Movies" name="termMobile" id="termMobile">
+				<a href="#/" class="fa fa-search"></a>
+			</form>
+		</div>
+		<nav id="menu" class="res-menu">
+			<ul>
+				<li><a href="/" title="">Home</a></li>
+				<li><a href="/login" title="">Connexion</a></li>
+			</ul>
+		</nav>
+		
+	</div><!-- responsive header -->
+	
 <div class="topbar stick">
     <div class="logo">
         <a title="" href="newsfeed.html"><img src="../../public/images/logo.png" alt=""></a>
@@ -44,7 +71,7 @@
         
         <div class="top-search">
             <form method="post" class="" id="searchform">
-                <input type="text" placeholder="Search People, Pages, Groups etc" name="term" id="term">
+                <input type="text" placeholder="Search Movies" name="term" id="term">
                 <button type="submit" data-ripple><i><svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 512 512" class="search-icon" height="15px" width="15px">
                     <path d="M455 455a25 25 0 01-35.4 0l-81.3-81.2a32.2 32.2 0 01-.9-44.7 137 137 0 00-101-229.5h-.5a136 136 0 00-97 40.9 137.3 137.3 0 00.6 192.7 136.4 136.4 0 00139.2 33.6 25 25 0 0115.3 47.6 187 187 0 01-190-46 187.5 187.5 0 01-.8-263 185.6 185.6 0 01132.5-55.8h.8A187 187 0 01385 350l69.9 69.8a25 25 0 010 35.4z"></path>
                     <path d="M0 0h512v512H0z" fill="none"></path>
@@ -209,8 +236,14 @@
         const term = document.getElementById('term');
 
         window.location.href= `/movies/search/${term.value}`;
+    });
+    const searchFormMobile = document.querySelector('#searchformmobile');
+    searchFormMobile.addEventListener('submit', () => {
+        const term = document.getElementById('termMobile');
+
+        window.location.href= `/movies/search/${term.value}`;
     })
-    
+    searchformmobile
 </script>
 
     <!-- nav menu -->
