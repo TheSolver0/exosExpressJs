@@ -16,6 +16,7 @@ exports.postLogin = (req,res) => {
     {
         var myToken = jwt.sign({iss: 'd://travail/bull', user: fakeUser, scope: 'admin'} , SECRET);
         res.json(myToken);
+        // res.redirect('/');
     }
     else
     {

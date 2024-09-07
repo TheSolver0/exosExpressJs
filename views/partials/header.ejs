@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="../../public/css/style.css">
     <link rel="stylesheet" href="../../public/css/color.css">
     <link rel="stylesheet" href="../../public/css/responsive.css">
+    <link rel="stylesheet" href="../../public/css/weather-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/weather-icons.css">
 
     
 
@@ -28,9 +30,10 @@
 		  <span style="--i:6;">O</span>
 		  <span style="--i:7;">T</span>
 		  <span style="--i:8;">S</span>
-		  <span style="--i:9;">0</span>
+		  <span style="--i:9;">O</span>
 		</div>
 	</div>
+    
 <div class="theme-layout gray-bg">	
   
 <div class="topbar stick">
@@ -40,9 +43,9 @@
     <div class="top-area">
         
         <div class="top-search">
-            <form method="post" class="">
-                <input type="text" placeholder="Search People, Pages, Groups etc">
-                <button data-ripple><i><svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 512 512" class="search-icon" height="15px" width="15px">
+            <form method="post" class="" id="searchform">
+                <input type="text" placeholder="Search People, Pages, Groups etc" name="term" id="term">
+                <button type="submit" data-ripple><i><svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 512 512" class="search-icon" height="15px" width="15px">
                     <path d="M455 455a25 25 0 01-35.4 0l-81.3-81.2a32.2 32.2 0 01-.9-44.7 137 137 0 00-101-229.5h-.5a136 136 0 00-97 40.9 137.3 137.3 0 00.6 192.7 136.4 136.4 0 00139.2 33.6 25 25 0 0115.3 47.6 187 187 0 01-190-46 187.5 187.5 0 01-.8-263 185.6 185.6 0 01132.5-55.8h.8A187 187 0 01385 350l69.9 69.8a25 25 0 010 35.4z"></path>
                     <path d="M0 0h512v512H0z" fill="none"></path>
                 </svg></i></button>
@@ -197,9 +200,22 @@
         </div>
         
     </div>
+    </div>
+</div>
+
+<script>
+    const searchForm = document.querySelector('#searchform');
+    searchForm.addEventListener('submit', () => {
+        const term = document.getElementById('term');
+
+        window.location.href= `/movies/search/${term.value}`;
+    })
+    
+</script>
+
     <!-- nav menu -->
-</div><!-- topbar -->
-<div>
+<!-- topbar -->
+<!-- <div>
     <div>
         <a href="/">Express Movies</a>
         &nbsp;
@@ -213,4 +229,4 @@
         <a href="/login">Connexion</a>
         &nbsp;
     </div>
-</div>
+</div> -->

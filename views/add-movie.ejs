@@ -1,0 +1,87 @@
+<%- include('./partials/header') %>
+
+<section>
+    <div class="page-header">
+        <div class="header-inner">
+            <h2>Enregistrement d'un film</h2>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, reprehenderit corrupti veniam, repudiandae atque quidem distinctio pariatur nobis tempore dignissimos, ullam nisi. Debitis ratione maxime earum veniam minima totam voluptas!
+            </p>
+        </div>
+        <!-- <figure><img src="../public/images/resources/story-1.jpg" alt=""></figure> -->
+    </div>
+</section>
+<div class="gap gray-bg">
+    <div class="container">
+        <div class="row merged20">
+            <div class="col-lg-12">
+                <div class="forum-warper">
+                    <div class="central-meta">
+                        <div class="title-block">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="align-left">
+                                        <h5>Create Forum Topic</h5>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div><!-- title block -->
+                </div>
+                <div class="forum-form">
+                    <div class="central-meta">
+                        <form class="c-form" id="form">
+                            <div>
+                                <label for="movietitle">Titre du film</label>
+                                <input type="text" placeholder="Titre du film" name="movietitle" id="movietitle">
+                            </div>
+                            <div>
+                                <label for="movieyear">Année du film</label>
+                                <input type="number" name="movieyear" id="movieyear" placeholder="Année du film">
+                            </div>
+                            <div>
+                                <button class="main-btn" type="submit" data-ripple="">Enregistrer le film</button>
+                                <button class="main-btn3" type="reset" data-ripple="">Renitialiser le formulaire</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const form = document.querySelector('#form');
+    form.addEventListener('submit', addMovie);
+
+    function addMovie(event)
+    {
+        event.preventDefault();
+
+        if(window.fetch)
+        {
+            fetch('/movies/add', {
+                method: 'POST',
+                body: new FormData(form),
+            })
+            .then(checkStatus => {
+                window.location.href = '/';
+
+            })
+            .catch(function(error)
+                {
+                    console.error('request failed', error);
+                })
+        }
+        else
+        {
+            // autres alternatives : jQuery, XHR
+        }
+    }
+
+</script>
+<%- include('./partials/footer') %>

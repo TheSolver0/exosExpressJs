@@ -25,11 +25,21 @@ exports.getMovieDetails = (req,res) => {
 };
 
 exports.getMoviesAdd = (req, res) => {
-    res.send('Formulaire de creation');
+    res.render('add-movie');
 };
 
 exports.getMovieSearch = (req, res) => {
-    res.render('movie-search');
+    const title = req.params.term;
+    Movie.find({movietitle: title})
+        .then(movie => {
+            frenchMovies = movie;
+            // res.send(movie);
+            res.render('movies-search', {frenchMovies});
+        })
+        .catch(err => {
+            console.error(err);
+            alert('err');
+        })
 };
 
 exports.postMovie = (req, res) => {

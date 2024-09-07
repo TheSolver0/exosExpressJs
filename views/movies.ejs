@@ -1,13 +1,95 @@
         <%- include('./partials/header') %>
+        <section>
+            <div class="gap2 no-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row merged20" id="page-contents"><!-- page-content id used for static widget parent -->
+                                <div class="col-lg-12">
+                                    <div class="tube-featurd-area">
+                                        <div class="row merged-4px">
+                                            <div class="col-lg-6 col-md-6">
+                                                <figure class="featured-tube">
+                                                    <img src="../public/images/resources/ad-widget.gif" alt="">
+                                                    <div class="feature-title">
+                                                        <h2><a href="pittube-detail.html" title="">Flying Over the Grand Canyon with a Helicopter</a></h2>
+                                                        <div class="user-fig">
+                                                            <img alt="" src="../public/images/resources/thumb-3.jpg">
+                                                            <a title="" href="#">Frank</a>
+                                                        </div>
+                                                        <span class="upload-time">4 days ago</span>
+                                                    </div>
+                                                </figure>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row merged-4px">
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <figure class="featured-tube">
+                                                            <img src="../public/images/resources/share-post.jpg" alt="">
+                                                            <div class="feature-title">
+                                                                <h4><a href="pittube-detail.html" title="">Flying Over the Grand Canyon with a Helicopter</a></h4>
+                                                                <div class="user-fig">
+                                                                    <img alt="" src="../public/images/resources/thumb-1.jpg">
+                                                                    <a title="" href="#">Xing Xong</a>
+                                                                </div>
+                                                                <span class="upload-time">Feb 22, 2020</span>
+                                                            </div>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <figure class="featured-tube">
+                                                            <img src="../public/images/resources/ad-widget.gif" alt="">
+                                                            <div class="feature-title">
+                                                                <h6><a href="pittube-detail.html" title="">Flying Over the Grand Canyon with a Helicopter</a></h6>
+                                                                <div class="user-fig">
+                                                                    <img alt="" src="../public/images/resources/thumb-2.jpg">
+                                                                    <a title="" href="#">Sara Hayat</a>
+                                                                </div>
+                                                                <span class="upload-time">Jan 17, 2020</span>
+                                                            </div>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <figure class="featured-tube">
+                                                            <img src="../public/images/resources/share-post.jpg" alt="">
+                                                            <div class="feature-title">
+                                                                <h6><a href="pittube-detail.html" title="">Flying Over the Grand Canyon with a Helicopter</a></h6>
+                                                                <div class="user-fig">
+                                                                    <img alt="" src="../public/images/resources/thumb-4.jpg">
+                                                                    <a title="" href="#">Maria</a>
+                                                                </div>
+                                                                <span class="upload-time">a week ago</span>
+                                                            </div>
+                                                        </figure>
+                                                    </div>
+                                                </div>	
+                                            </div>
+                                        </div>
+                                    </div><!-- tube featured area -->
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="gap2">
+                                        <div class="central-meta no-margin">
+                                            
+                                                <a href="/movies/add" title="" class="main-btn" data-ripple="">Ajouter un film</a>
+                                        </div>
+                                    </div>	
+                                </div>
+                            </div>	
+                        </div>
+                    </div>
+                </div>
+            </div>	
+        </section>
         <div class="central-meta no-margin">
-            <span class="create-post">Newest Uploaded <a title="" href="#">See All Videos</a></span>
+            <span class="create-post">Newest Uploaded  [<%= Object.keys(frenchMovies).length %>] <a title="" href="#">See All Videos</a></span>
             <div class="row merged20 remove-ext">
                 <% frenchMovies.map((movie) => { %>
                 
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-3 col-md-6 col-sm-6 movieItem" id="<%= movie._id %>">
                     <div class="tube-post">
                         <figure>
-                            <img src="images/resources/tube-post17.jpg" alt="">
+                            <img src="../public/images/resources/page1.jpg" alt="">
                             <div class="save-post" title="Watch Later"><i class="fa fa-clock-o"></i></div>
                             <span class="vid-time">4:32</span>
                             <em>views: 2.5k</em>
@@ -23,12 +105,12 @@
                             </div>
                         </figure>
                         <div class="tube-title">
-                            <h6><a href="pittube-detail.html" title="">First Music concert in the Five star Ramada hotel</a></h6>
+                            <h6><a href="pittube-detail.html" title=""><%= movie.movietitle %></a></h6>
                             <div class="user-fig">
                                 <img alt="" src="images/resources/tube-user5.jpg">
                                 <a title="" href="#">Samia naz</a>
                             </div>
-                            <span class="upload-time">two weeks ago</span>
+                            <span class="upload-time"><%= movie.movieyear %></span>
                         </div>
                     </div>
                 </div>
@@ -37,30 +119,7 @@
 
             </div>
         </div>
-        <div class="central">
-
-        <h1>Page des movies</h1>
-        <div>
-            Ici la liste des films :
-            <ul>
-                    
-            </ul>
-            
-        </div>
-
-        <br>
-
-        <form action="/movies" method="post">
-            <label for="movietitle">Titre du film</label>
-            <input type="text" name="movietitle" id="movietitle">
-            
-            <label for="movieyear">Année du film</label>
-            <input type="number" name="movieyear" id="movieyear">
-
-            <button type="submit">Ajouter</button>
-        </form>
-
-    </div>
+        
 
     <script>
         const form = document.querySelector('form');
@@ -104,7 +163,7 @@
             }
         }
 
-        const liGroup = document.getElementsByTagName('li');
+        const liGroup = document.getElementsByClassName("movieItem");
         
         for (const li of liGroup) {
             li.addEventListener('click', () => {
@@ -124,6 +183,9 @@
         })
         }
 
+      
+
     </script>
+
 
 <%- include('./partials/footer') %>

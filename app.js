@@ -41,9 +41,11 @@ app.set('view engine', 'ejs');
 app.get('/',movieController.getMovies);
 app.get('/movies', movieController.getMovies);
 
-app.post('/movies',upload.fields([]), movieController.postMovie);
+app.post('/movies/add',upload.fields([]), movieController.postMovie);
 
-app.get('/movie-search', movieController.getMovieSearch);
+app.get('/movies/search/:term', movieController.getMovieSearch);
+
+// app.get('/movies/search', movieController.getMovieSearch);
 
 app.get('/movies/add', movieController.getMoviesAdd);
 
