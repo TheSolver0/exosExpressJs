@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <link rel="stylesheet" href="../public/style.css">
+</head>
+<body>
+    <div class="central">
+        <%- include('./partials/header') %>
+
+        <h1>Page de movie <%= movie.movietitle %></h1>
+        <div>
+            Ici les details du film ayant pour id = <%= movie._id %>
+            <input type="hidden" value=<%= movie._id %> id="_id">
+            <br> <hr>
+                Nom du film : <%= movie.movietitle %> 
+                <input type="text" name="movietitle" id="movietitle" placeholder="Modifier le nom" value=<%= movie.movietitle %>> 
+                <button id="btnupdatetitle">Modifier le nom</button>
+                <br>  <hr>
+                Année du film : <%= movie.movieyear %>
+                <input type="text" name="movieyear" id="movieyear" placeholder="Modifier l'année" value=<%= movie.movieyear %>> 
+                <button id="btnupdateyear">Modifier l'année</button>
+
+        </div>
+    
+        <%- include('./partials/footer') %>    
+    </div>
+
+    <script>
+        window.onload = function () {
+            const _id = document.getElementById("_id").value;
+            const btnUpdateTitle = document.getElementById("btnupdatetitle");
+            const movietitle = document.getElementById("movietitle");
+            // console.log(movietitle);
+        // const btnUpdateYear = document.querySelector('#btnupdateyear');
+        btnUpdateTitle.addEventListener('click',updateMovieTitle);
+        // btnUpdateYear.addEventListener('click', () => updateMovieYear);
+
+        function updateMovieTitle()
+        {
+            const formData = new FormData();
+            formData.append('movietitle', movietitle.value);
+            
+            if(window.fetch)
+            {
+                fetch(`/movie/${_id}`, {
+                    method: 'PUT',
+                    body: formData,
+                })
+                .then(response =>{
+                    console.log(response);
+                }) // Traite les données de la réponse
+                .catch(error => console.error('Erreur:', error));
+            }
+            else
+            {
+                console.log('Impossible de fetch');
+            }
+
+            window.location.reload();
+        }
+        }
+
+        
+    </script>
+</body>
+</html>

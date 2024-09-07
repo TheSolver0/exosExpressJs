@@ -1,0 +1,129 @@
+        <%- include('./partials/header') %>
+        <div class="central-meta no-margin">
+            <span class="create-post">Newest Uploaded <a title="" href="#">See All Videos</a></span>
+            <div class="row merged20 remove-ext">
+                <% frenchMovies.map((movie) => { %>
+                
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="tube-post">
+                        <figure>
+                            <img src="images/resources/tube-post17.jpg" alt="">
+                            <div class="save-post" title="Watch Later"><i class="fa fa-clock-o"></i></div>
+                            <span class="vid-time">4:32</span>
+                            <em>views: 2.5k</em>
+                            <div class="more">
+                                <div class="more-post-optns"><i class="ti-more-alt"></i>
+                                    <ul>
+                                        <li class="send-mesg"><i class="fa fa-comment"></i>Send Message</li>
+                                        <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
+                                        <li class="share-pst"><i class="fa fa-share-alt"></i>Share</li>
+                                        <li class="get-link"><i class="fa fa-link"></i>Copy Link</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </figure>
+                        <div class="tube-title">
+                            <h6><a href="pittube-detail.html" title="">First Music concert in the Five star Ramada hotel</a></h6>
+                            <div class="user-fig">
+                                <img alt="" src="images/resources/tube-user5.jpg">
+                                <a title="" href="#">Samia naz</a>
+                            </div>
+                            <span class="upload-time">two weeks ago</span>
+                        </div>
+                    </div>
+                </div>
+
+                <% }) %>
+
+            </div>
+        </div>
+        <div class="central">
+
+        <h1>Page des movies</h1>
+        <div>
+            Ici la liste des films :
+            <ul>
+                    
+            </ul>
+            
+        </div>
+
+        <br>
+
+        <form action="/movies" method="post">
+            <label for="movietitle">Titre du film</label>
+            <input type="text" name="movietitle" id="movietitle">
+            
+            <label for="movieyear">Année du film</label>
+            <input type="number" name="movieyear" id="movieyear">
+
+            <button type="submit">Ajouter</button>
+        </form>
+
+    </div>
+
+    <script>
+        const form = document.querySelector('form');
+        form.addEventListener('submit', addMovie);
+
+        function addMovie(event)
+        {
+            event.preventDefault();
+
+            if(window.fetch)
+            {
+                fetch('/movies', {
+                    method: 'POST',
+                    body: new FormData(form),
+                })
+                .then(checkStatus)
+                .catch(function(error)
+                    {
+                        console.error('request failed', error);
+                    })
+            }
+            else
+            {
+                // autres alternatives : jQuery, XHR
+            }
+        }
+
+        function checkStatus(response)
+        {
+            if(response.status >= 200 && response.status < 300)
+            {
+                // console.log(response);
+                let newLi = document.createElement('li');
+                newLi.style.color = 'orange';
+                const movietitle = document.getElementById('movietitle').value;
+                const movieyear = document.getElementById('movieyear').value;
+                newLi.innerHTML = `${movietitle} -> ${movieyear}`;
+                document.querySelector('ul').appendChild(newLi);
+
+                form.reset();
+            }
+        }
+
+        const liGroup = document.getElementsByTagName('li');
+        
+        for (const li of liGroup) {
+            li.addEventListener('click', () => {
+                let id = li.id;
+                window.location.href= `/movie-details/${id}`;
+        })
+        }
+        
+        const btnSupp = document.getElementsByClassName("supp");
+
+        for (const btn of btnSupp) {
+            btn.addEventListener('click', () => {
+                const query = `/movie/${btn.id}`;
+                axios.delete(query)
+                        .then(console.log("supprimé avec success !"));
+                window.location.reload();
+        })
+        }
+
+    </script>
+
+<%- include('./partials/footer') %>

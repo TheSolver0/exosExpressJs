@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <link rel="stylesheet" href="../public/style.css">
+</head>
+<body>
+    <div class="central">
+        <%- include('./partials/header') %>
+
+        <h1>Recherché un film</h1>
+       
+
+        <br>
+
+            <label for="movietitle">Titre du film</label>
+            <input type="text" name="term" id="term" placeholder="Titre du film">
+
+            <button id="btnSearch">Recherché</button>
+        </form>
+
+        <br> <hr>
+
+        <div style="display: none;" id="results">
+            Ici la liste des films trouvés:
+            <ul id="resultslist">
+              
+            </ul>
+            
+        </div>
+
+        <%- include('./partials/footer') %>
+    </div>
+
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+    <script>
+        const btnSearch = document.querySelector('#btnSearch');
+        const term = document.querySelector('#term');
+        const API_KEY = '6c9354ef1e32dffc383ca0b610b591d9';
+        let resultsDiv = document.querySelector("#results");
+        let resultsList = document.querySelector("#resultslist");
+        let movies = [];
+
+        btnSearch.addEventListener('click', search);
+
+        function search()
+        {
+            const query = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${term.value}&language=fr-FR`;
+
+            axios.get(query)
+                .then(function(response)
+                {
+                    console.log(response);
+                    displayResults(response.data.results);
+                });
+        }
+        
+        function displayResults(results)
+        {
+            let newLi = {};
+
+            for(let result of results)
+            {
+                newLi[result] = document.createElement('li');
+                newLi[result].innerHTML = result.title;
+                resultsList.appendChild(newLi[result]);
+                resultsDiv.style.display = '';
+            }
+        }
+
+    </script>
+
+</body>
+</html>

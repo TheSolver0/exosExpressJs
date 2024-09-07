@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/style.css">
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+
+</head>
+<body>
+    <%- include('./partials/header') %>
+    
+    <div class="central">
+        <h1><%= title %></h1>
+        <br>
+        <div id="login">
+            <form>
+                <legend>Veuillez saisir vos identifiants</legend>
+                <label for="email">email</label>
+                <input type="text" name="email" id="email">
+                <label for="password">mot de passe</label>
+                <input type="password" name="password" id="password">
+                <button type="submit">connexion</button>
+            </form>
+        </div>
+        <div id="profil" style="display: none;">
+            <button id="logout">Déconnexion</button>
+            <button id="payload">Voir le payload</button>
+            <div id="seePayload"></div>
+            <div>
+                <a href="#" id="members-only">Espace membre</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <%- include('./partials/footer') %>
+    </footer>
+
+    <script>
+        var form = document.querySelector('form');
+        form.addEventListener("submit", loginUser);
+        var loginArea = document.querySelector('#login');
+        var profilArea = document.querySelector('#profil');
+        var btnLogout = document.querySelector('#logout');
+        var btnPayload = document.querySelector('#payload');
+        var seePayloadArea = document.querySelector('#seePayload');
+        var linkMembersOnly = document.querySelector('#members-only');
+
+        linkMembersOnly.addEventListener('click', makeRequestWithToken);
+        
+
+        function loginUser(event)
+        {
+            loginUserWithXHR(event);
+        }
+
+        function loginUserWithXHR(event)
+        {
+            event.preventDefault();
+            console.log('loginUserWithXHR');
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/login', true);
+
+            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() { // call a funtion when the state change
+                if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
+                {
+                    var token = xhr.response;
+                    localStorage.setItem('token', token);
+                    toggleLogMode();
+                    form.reset();
+                }
+            }
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var payLoad = "email=" + email + "&" + "password=" + password;
+            xhr.send(payLoad);
+        }
+        function toggleLogMode()
+        {
+            if(localStorage.getItem('token') != null)
+            {
+                loginArea.style.display = 'none';
+                profilArea.style.display = '';
+            }
+            else
+            {
+                loginArea.style.display = '';
+                profilArea.style.display = 'none';
+            }
+            
+        }
+
+        btnLogout.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            toggleLogMode()
+        });
+
+        function parseJwt()
+        {
+            var tokenFromStorage = localStorage.getItem('token');
+            if(tokenFromStorage)
+            {
+                var base64encoded = tokenFromStorage.split('.')[1];
+                return JSON.parse(window.atob(base64encoded));   
+            }
+        }
+
+        btnPayload.addEventListener('click', displayPayload)
+
+        function displayPayload()
+        {
+            var payload = parseJwt();
+            seePayloadArea.innerHTML = '<pre>' + JSON.stringify(payload) + '</pre>';
+        }
+
+        function makeRequestWithToken(event)
+        {
+            event.preventDefault();
+            var page = this.id;
+            var tokenFromStorage = localStorage.getItem('token');
+            var config = {};
+
+            if(tokenFromStorage)
+            {
+                config.headers = { 'Authorization': 'Bearer ' + JSON.parse(tokenFromStorage) }; 
+                // console.log(config);  
+            } 
+
+            axios.get(
+                'http://localhost:3000/' + page,
+                config
+            ).then(res => {
+                console.log('success');
+                console.log(res);
+            }).catch( err => {
+                console.log('makeRequestWithToken err : ',err);
+            })
+        }
+        
+
+    </script>
+</body>
+</html>
