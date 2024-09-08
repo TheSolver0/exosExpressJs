@@ -3,6 +3,7 @@ const Movie = require('../models/Movie');
 exports.getMovies = (req,res) => {
     
     Movie.find({})
+    .sort({_id: -1})
     .then(users => {
         frenchMovies = users;
         res.render('movies', {frenchMovies});
@@ -30,10 +31,11 @@ exports.getMoviesAdd = (req, res) => {
 
 exports.getMovieSearch = (req, res) => {
     const title = req.params.term;
-    Movie.find({movietitle: title})
+    Movie.find({movietitle: { $regex: `.*${title}.*`, $options: "i" }})
         .then(movie => {
             frenchMovies = movie;
-            // res.send(movie);
+            console.log(frenchMovies);
+            //  res.send(movie);
             res.render('movies-search', {frenchMovies});
         })
         .catch(err => {

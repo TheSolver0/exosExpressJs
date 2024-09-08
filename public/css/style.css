@@ -657,7 +657,7 @@ header.sticky {
 /*--- topbar ---*/
 
 .topbar {
-    background: #34465d;
+    background: #30305b;
     display: block;
     height: 66px;
     padding: 0 16px;
@@ -3746,7 +3746,7 @@ nav.breadcrumb {
 }
 
 .page-header {
-    background: #495b72 none repeat scroll 0 0;
+    background: #484874 none repeat scroll 0 0;
     border-bottom: 1px solid #e1e8ed;
 	position: relative;
     float: left;
