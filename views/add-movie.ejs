@@ -72,12 +72,25 @@
                 method: 'POST',
                 body: new FormData(form),
             })
-            .then(checkStatus => {
-                window.location.href = '/';
+            .then(response => {
+                Swal.fire({
+                                title: 'Success!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'Cool'
+                            });
+                setTimeout(function(){window.location.href = '/'}, 1000);
+                
 
             })
             .catch(function(error)
                 {
+                    Swal.fire({
+                                title: 'Error!',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'Cool'
+                            });
                     console.error('request failed', error);
                 })
         }

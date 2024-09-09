@@ -845,7 +845,7 @@
                                     <a class="forgot underline" href="#" title="" style="padding-left: 100px;"> forgot
                                         password?</a>
                                 </form>
-                                <span>don't have an account? <a class="we-account underline" href="#"
+                                <span>don't have an account? <a class="we-account underline" href="/users/register"
                                         title=""><b>register
                                             now</b></a></span>
                             </div>
@@ -906,8 +906,8 @@
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", '/login', true);
-
-            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+            console.log('test');
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
             xhr.onreadystatechange = function () { // call a funtion when the state change
                 if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
@@ -915,13 +915,19 @@
                     localStorage.setItem('token', token);
                     toggleLogMode();
                     form.reset();
-                    window.location.href = '/';
+                    window.location.href = '/dashboard';
                 }
             }
+           
             var email = document.getElementById('email').value;
             var password = document.getElementById('password').value;
-            var payLoad = "email=" + email + "&" + "password=" + password;
-            xhr.send(payLoad);
+            const data = JSON.stringify({
+                pseudo: "",
+                email: email,
+                password: password
+            });
+            
+            xhr.send(data);
         }
         function toggleLogMode() {
             if (localStorage.getItem('token') != null) {

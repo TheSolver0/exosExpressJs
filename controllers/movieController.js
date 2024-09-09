@@ -2,6 +2,8 @@ const Movie = require('../models/Movie');
 
 exports.getMovies = (req,res) => {
     
+    // var payload = parseJwt();
+
     Movie.find({})
     .sort({_id: -1})
     .then(users => {
@@ -61,7 +63,7 @@ exports.postMovie = (req, res) => {
             .catch(err => {
                 console.log(err);
             });
-    res.sendStatus(201);
+    return res.status(201).json({message: "Film ajouté avec succès !"});
 };
 
 exports.updateMovie = (req,res) => {
@@ -101,4 +103,10 @@ exports.deleteMovie =  (req,res) => {
     }
 };
 
-
+// function parseJwt() {
+//     var tokenFromStorage = localStorage.getItem('token');
+//     if (tokenFromStorage) {
+//         var base64encoded = tokenFromStorage.split('.')[1];
+//         return JSON.parse(window.atob(base64encoded));
+//     }
+// }

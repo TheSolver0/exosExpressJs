@@ -12,6 +12,7 @@ const mongoose = require('mongoose');
 
 const movieController = require('./controllers/movieController');
 const authController = require('./controllers/authController');
+const userController = require('./controllers/userController');
 const config = require('./config');
 
 const PORT = 3000;
@@ -26,6 +27,28 @@ db.on('error', console.error.bind(console, 'connection error: cannot connect  to
 db.once('open', () => {
     console.log('connected to the DB :)');
 });
+
+app.use(express.json());
+const authenticateToken = (req, res, next) => {
+    const token = req.headers.cookie.split('token=')[1];
+
+    if (!token) {
+        return res.sendStatus(401); // Non authentifié
+    }
+
+    jwt.verify(token, SECRET, (err, user) => {
+        if (err) {
+            return res.sendStatus(403); // Non autorisé
+        }
+
+        req.user = user; // Ajouter les informations de l'utilisateur à la requête
+        res.locals.user = user.user;
+        // console.log(req.user.user);
+        next();
+    });
+};
+
+// app.use(authenticateToken);
 
 app.use('/public',express.static('public'));
 // app.use(AUTH
@@ -58,11 +81,27 @@ app.delete('/movie/:id', movieController.deleteMovie);
 app.get('/login', authController.login);
 
 
-app.post('/login', urlencodedParser , authController.postLogin);
+app.post('/login', upload.fields([]) , authController.postLogin);
 
 app.get('/members-only', authController.getMembersOnly);
 
+app.get('/users', userController.getUsers);
 
+app.get('/users/register', userController.getUserRegister);
+
+app.post('/users/register', upload.fields([]), userController.postUser);
+
+app.post('/logout', (req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true, 
+        // secure: process.env.NODE_ENV === 'production', // Assurez-vous d'utiliser true en production avec HTTPS
+        maxAge: 3600000 // 1 heure
+
+    });
+    res.status(200).json({ message: 'Déconnexion réussie' });
+});
+
+app.get('/dashboard', authenticateToken, userController.getProfil);
 
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
