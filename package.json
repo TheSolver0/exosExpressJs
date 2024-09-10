@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "postinstall": "npm rebuild",
+    "build": "echo 'Pas de build nécessaire pour ce projet'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx nodemon app.js"
 
