@@ -62,10 +62,11 @@ exports.postMovie = (req, res) => {
                 return console.log('Utilisateur non trouvé');
             }
             // console.log('user :', user._id);
+            const image = req.file ? req.file.filename : undefined;
 
             const title = req.body.movietitle;
             const year = req.body.movieyear;
-            const myMovie = new Movie({ movietitle: title, movieyear: year, author: user._id });
+            const myMovie = new Movie({ movietitle: title, movieyear: year, author: user._id, image });
             myMovie.save()
                 .then(savedMovie => {
                     console.log(savedMovie);
@@ -96,13 +97,14 @@ exports.updateMovie = (req, res) => {
         Movie.findByIdAndUpdate(id, { $set: { movietitle: req.body.movietitle, movieyear: req.body.movieyear } }, { new: true })
             .then(movie => {
                 console.log(movie);
-                res.json(movie);
+                // res.json(movie);
                 // res.redirect('/movies')
             })
             .catch(err => {
                 console.log(err);
                 res.send('Erreur de mise à jour ');
             });
+            return res.status(201).json({ message: "suppression successfully" });
     }
 };
 exports.deleteMovie = (req, res) => {
@@ -115,6 +117,8 @@ exports.deleteMovie = (req, res) => {
         Movie.findByIdAndDelete(id)
             .then(console.log("suppression successfully"))
             .catch(err => console.log(err));
+        return res.status(201).json({ message: "suppression successfully" });
+        
     }
 };
 

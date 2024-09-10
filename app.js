@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const multer = require('multer');
+// const upload = multer({ dest: './public/data/uploads/' })
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const upload = multer();
 const {faker} = require('@faker-js/faker');
@@ -28,6 +30,56 @@ db.once('open', () => {
     console.log('connected to the DB :)');
 });
 
+const avatarStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads/avatars/'); // Dossier où les avatars seront stockés
+    },
+    filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname).toLowerCase(); // Extension du fichier
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); // Suffixe unique pour éviter les collisions
+        cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+      }
+  });
+const avatarUpload =  multer({
+    storage: avatarStorage,
+    fileFilter: function (req, file, cb) {
+      const filetypes = /jpeg|jpg|png/;
+      const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+      const mimetype = filetypes.test(file.mimetype);
+  
+      if (mimetype && extname) {
+        return cb(null, true);
+      } else {
+        cb(new Error('Seules les images JPEG, JPG et PNG sont autorisées.'));
+      }
+    }
+  });
+
+  const movieStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads/images-movie/'); // Dossier où les avatars seront stockés
+    },
+    filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname).toLowerCase(); // Extension du fichier
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); // Suffixe unique pour éviter les collisions
+        cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+      }
+  });
+const movieUpload =  multer({
+    storage: movieStorage,
+    fileFilter: function (req, file, cb) {
+      const filetypes = /jpeg|jpg|png/;
+      const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+      const mimetype = filetypes.test(file.mimetype);
+  
+      if (mimetype && extname) {
+        return cb(null, true);
+      } else {
+        cb(new Error('Seules les images JPEG, JPG et PNG sont autorisées.'));
+      }
+    }
+  });
+// app.use('public/avatars', express.static('uploads'));
 app.use(express.json());
 const authenticateToken = (req, res, next) => {
     const token = req.headers.cookie.split('token=')[1];
@@ -64,7 +116,7 @@ app.set('view engine', 'ejs');
 app.get('/',movieController.getMovies);
 app.get('/movies', movieController.getMovies);
 
-app.post('/movies/add',upload.fields([]), movieController.postMovie);
+app.post('/movies/add',movieUpload.single('image'), movieController.postMovie);
 
 app.get('/movies/search/:term', movieController.getMovieSearch);
 
@@ -89,7 +141,7 @@ app.get('/users', userController.getUsers);
 
 app.get('/users/register', userController.getUserRegister);
 
-app.post('/users/register', upload.fields([]), userController.postUser);
+app.post('/users/register', avatarUpload.single('avatar'), userController.postUser);
 
 app.post('/logout', (req, res) => {
     res.clearCookie('token', {

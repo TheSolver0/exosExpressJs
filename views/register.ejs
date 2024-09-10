@@ -840,11 +840,12 @@
                                     </svg><!-- <i class="fa-regular fa-right-to-bracket"></i> --> Register
                                     <span>register now and meet the awesome Friends around the world.</span>
                                 </div>
-                                <form class="we-form" method="post" id="formregister">
+                                <form class="we-form" method="post" id="formregister" enctype="multipart/form-data">
                                     <input type="text" placeholder="Pseudo" name="pseudo" id="pseudo">
                                     <input type="text" placeholder="Email" name="email" id="email">
                                     <input type="password" placeholder="Password" name="password" id="password">
                                     <br>
+                                    <input type="file" placeholder="avatar" name="avatar" id="avatar" accept=".jpg, .jpeg, .png, .gif">
                                     <button type="submit" data-ripple="">sign in</button>
                                     <a class="forgot underline" href="#" title="" style="padding-left: 100px;"> forgot
                                         password?</a>
@@ -905,21 +906,13 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        if (response.success) {
                             Swal.fire({
                                 title: 'Success!',
                                 text: response.message,
                                 icon: 'success',
                                 confirmButtonText: 'Cool'
                             });
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: response.message,
-                                icon: 'error',
-                                confirmButtonText: 'Ok'
-                            });
-                        }
+                        
                         setTimeout(function () {
                             window.location.href = '/login';
                         }, 1000);

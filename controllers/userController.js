@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const path = require('path');
 
 exports.getUsers = (req, res) => {
     // liste des user
@@ -17,7 +18,18 @@ exports.postUser = async (req, res) => {
         return res.sendStatus(500);  // Mauvaise requête
     }
 
-    const { pseudo, email, password } = req.body;
+    const { pseudo, email, password, avatar } = req.body;
+
+    // const storage = multer.diskStorage({
+    //     destination: function (req, avatar, cb) {
+    //       cb(null, 'uploads/'); // Dossier où les fichiers seront enregistrés
+    //     },
+    //     filename: function (req, avatar, cb) {
+    //       const ext = path.extname(file.originalname); // Extraction de l'extension du fichier
+    //       const fileName = avatar.fieldname + '-' + Date.now() + ext; // Génération d'un nom unique
+    //       cb(null, fileName);
+    //     }
+    //   });
 
     // Vérification des champs obligatoires
     if (!pseudo || !email || !password) {
@@ -33,13 +45,16 @@ exports.postUser = async (req, res) => {
         }
 
         // Créer un nouvel utilisateur
-        const myUser = new User({ pseudo, email, password });
+        console.log(req.file);
+        const avatar = req.file ? req.file.filename : undefined;
+      
+        const myUser = new User({ pseudo, email, password, avatar });
 
         // Sauvegarder l'utilisateur
         await myUser.save();
 
         // Réponse après création réussie
-        return res.status(201).json({ message: "Utilisateur créé avec succès !" });
+        return res.status(200).json({ message: "Utilisateur créé avec succès !" });
     } catch (err) {
         // Gérer les erreurs du serveur ou du hachage
         console.error("Erreur lors de la création de l'utilisateur : ", err);

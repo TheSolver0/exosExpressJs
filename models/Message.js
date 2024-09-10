@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
-const movieSchema = mongoose.Schema({
-    movietitle: String,
-    movieyear: Number,
-    image: {
-        type: String,
-        required: false,
-    },
+const messageSchema = mongoose.Schema({
+    content: String,
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Référence à l'utilisateur
+    dest: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Référence à l'utilisateur
     
 
 }, {timestamps: true});

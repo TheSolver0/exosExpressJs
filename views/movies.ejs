@@ -51,7 +51,11 @@
                                         <div class="col-lg-3 col-md-6 col-sm-6 movieItem" id="<%= movie._id %>">
                                             <div class="tube-post">
                                                 <figure>
-                                                    <img src="../public/images/resources/91v-MfuWyWL._AC_UF1000,1000_QL80_.jpg" alt="">
+                                                    <% if(movie.image != null) { %>
+                                                    <img src="../public/uploads/avatars/<%= movie.image %>" alt="">
+                                                    <% } else { %>
+                                                    <img src="../public/images/resources/weather.jpg " alt="">
+                                                    <%} %>
                                                     <div class="save-post" title="Watch Later"><i class="fa fa-clock-o"></i></div>
                                                     <span class="vid-time">4:32</span>
                                                     <em>views: 2.5k</em>
@@ -69,7 +73,7 @@
                                                 <div class="tube-title">
                                                     <h6><a href="pittube-detail.html" title=""><%= movie.movietitle %></a></h6>
                                                     <div class="user-fig">
-                                                        <img alt="" src="../public/images/resources/tube-user5.jpg">
+                                                        <img alt="" src="../public/uploads/avatars/<%= movie.author.avatar %>">
                                                         <a title="" href="#"><%= movie.author.pseudo %></a>
                                                     </div>
                                                     <span class="upload-time"><%= movie.movieyear %></span>

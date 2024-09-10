@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    avatar: {
+        type: String,
+        required: false,
+    },
     movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }], // Référence aux posts
 
 
