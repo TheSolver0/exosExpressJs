@@ -5,19 +5,16 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "postinstall": "npm rebuild",
-    "build": "echo 'Pas de build nécessaire pour ce projet'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx nodemon app.js"
-
   },
   "engines": {
-    "node": "20.x"  
+    "node": "20.x"
   },
   "author": "Luc",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
