@@ -16,7 +16,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-});
+    movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }], // Référence aux posts
+
+
+},{timestamps: true});
 
 // Avant de sauvegarder un utilisateur, on hache le mot de passe
 userSchema.pre('save', async function(next) {
