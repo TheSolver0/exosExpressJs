@@ -33,7 +33,7 @@ const authenticateToken = (req, res, next) => {
     const token = req.headers.cookie.split('token=')[1];
 
     if (!token) {
-        return res.sendStatus(401); // Non authentifié
+        return res.render('login'); // Non authentifié
     }
 
     jwt.verify(token, SECRET, (err, user) => {
@@ -70,11 +70,11 @@ app.get('/movies/search/:term', movieController.getMovieSearch);
 
 // app.get('/movies/search', movieController.getMovieSearch);
 
-app.get('/movies/add', movieController.getMoviesAdd);
+app.get('/movies/add',authenticateToken, movieController.getMoviesAdd);
 
 app.get('/movie-details/:id', movieController.getMovieDetails);
 
-app.put('/movie/:id', upload.fields([]), movieController.updateMovie);
+app.put('/movie/:id', authenticateToken, upload.fields([]), movieController.updateMovie);
 
 app.delete('/movie/:id', movieController.deleteMovie);
 
