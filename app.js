@@ -70,7 +70,7 @@ app.get('/movies/search/:term', movieController.getMovieSearch);
 
 // app.get('/movies/search', movieController.getMovieSearch);
 
-app.get('/movies/add',authenticateToken, movieController.getMoviesAdd);
+app.get('/movies/add', authenticateToken, movieController.getMoviesAdd);
 
 app.get('/movie-details/:id', movieController.getMovieDetails);
 

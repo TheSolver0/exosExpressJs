@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const userSchema = mongoose.Schema({
     pseudo: {
@@ -16,7 +16,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-});
+    movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }], // Référence aux posts
+
+
+},{timestamps: true});
 
 // Avant de sauvegarder un utilisateur, on hache le mot de passe
 userSchema.pre('save', async function(next) {
